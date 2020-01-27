@@ -1,36 +1,59 @@
 <template>
-  <center>
-    <button @click="tableVisible = !tableVisible">Toggle Chars Table</button>
-
-    <table v-show="tableVisible" class="chars-table">
-      <thead>
-        <tr>
-          <th>Character</th>
-          <th>Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(count, char) in dictionary" :key="char">
-          <td class="center-cell">{{ char }}</td>
-          <td>
-            <input type="number" class="center-cell" v-model.number="dictionary[char]" min="0" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </center>
+  <div>
+    <button @click="toggleTable">Toggle Chars Table</button>
+    <v-data-table :headers="headers" :items="items" v-show="tableVisible">
+      <template v-slot:item.count="{ item }">
+        <v-text-field
+          key="item.char"
+          type="number"
+          min=0
+          v-model="dictionary[item.char]"
+        />
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script>
-  export default {
-    name: "Chars",
-    data: () => ({
-      tableVisible: false
-    }),
+  import Vue from 'vue'
+
+  export default Vue.component('Chars', {
     props: {
       dictionary: Object
+    },
+
+    data: () => ({
+      tableVisible: false,
+      rules: {
+        positive: value => value >= 0
+      },
+      headers: [
+        {
+          text: 'Character',
+          value: 'char'
+        },
+        {
+          text: 'Count',
+          value: 'count'
+        }
+      ]
+    }),
+
+    computed: {
+      items: function() {
+        return Object.keys(this.dictionary).map(k => ({
+          char: k,
+          count: this.dictionary[k]
+        }))
+      }
+    },
+
+    methods: {
+      toggleTable: function() {
+        this.tableVisible = !this.tableVisible
+      }
     }
-  };
+  })
 </script>
 
 <style scoped>

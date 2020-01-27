@@ -1,16 +1,17 @@
 <template>
-  <div class="error">
-    <p v-for="(count, char) in missing" :key="char">
+  <div>
+    <v-alert type="error" dense v-for="(count, char) in missing" :key="char" >
       Missing {{ count }} {{ char }}'s
-    </p>
+    </v-alert>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Error',
-  props: {
-    missing: Object
-  }
-}
+  import Vue from 'vue'
+
+  export default Vue.component('Error', {
+    props: {
+      missing: Object
+    }
+  })
 </script>

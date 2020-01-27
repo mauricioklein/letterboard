@@ -1,17 +1,13 @@
 <template>
-  <div class="success">
-    <h4><b>OK!</b></h4>
+  <div>
+    <v-alert type="success" dense>
+      All Good!
+    </v-alert>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Success'
-}
-</script>
+  import Vue from 'vue'
 
-<style scoped>
-h4 {
-  margin: 40px 0 0;
-}
-</style>
+  export default Vue.component('Success', {})
+</script>
